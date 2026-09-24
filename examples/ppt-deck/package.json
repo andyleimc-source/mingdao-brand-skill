@@ -1,0 +1,6 @@
+{
+  "name": "mingdao-ppt-deck-example",
+  "private": true,
+  "description": "deck-lib.js 参考实现与可运行示例",
+  "dependencies": { "pptxgenjs": "^4.0.0" }
+}

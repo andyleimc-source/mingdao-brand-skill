@@ -1,0 +1,75 @@
+{
+  "name": "Nocoly official font bundle",
+  "retrieved_at": "2026-08-18",
+  "license": "SIL-OFL-1.1",
+  "allowed_weights": [400, 500, 700],
+  "sources": {
+    "noto_sans_cjk": {
+      "version": "2.004",
+      "upstream": "https://github.com/notofonts/noto-cjk",
+      "release": "https://github.com/notofonts/noto-cjk/releases/tag/Sans2.004",
+      "license_file": "LICENSE-Noto-Sans-CJK.txt"
+    },
+    "inter": {
+      "version": "4.1",
+      "upstream": "https://github.com/rsms/inter",
+      "release": "https://github.com/rsms/inter/releases/tag/v4.1",
+      "distribution": "https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip",
+      "distribution_sha256": "9883fdd4a49d4fb66bd8177ba6625ef9a64aa45899767dde3d36aa425756b11e",
+      "license_file": "LICENSE-Inter.txt"
+    }
+  },
+  "fonts": {
+    "inter": {
+      "family": "Inter",
+      "file": "InterVariable.woff2",
+      "format": "woff2",
+      "mime": "font/woff2",
+      "sha256": "693b77d4f32ee9b8bfc995589b5fad5e99adf2832738661f5402f9978429a8e3"
+    },
+    "zh-CN": {
+      "family": "Noto Sans CJK SC",
+      "file": "NotoSansSC-VF.ttf",
+      "format": "truetype",
+      "mime": "font/ttf",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/Variable/TTF/Subset/NotoSansSC-VF.ttf",
+      "sha256": "d68bafcb48a2707749396aa12bbbd833cb70401f3a9a689fd2902c7e0d295964"
+    },
+    "zh-TW": {
+      "family": "Noto Sans CJK TC",
+      "file": "NotoSansTC-VF.ttf",
+      "format": "truetype",
+      "mime": "font/ttf",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/Variable/TTF/Subset/NotoSansTC-VF.ttf",
+      "sha256": "ac091cc8cd19e848202afc8fe6d3809b4526c8fdbdb4be82da20c4f785949591"
+    },
+    "zh-HK": {
+      "family": "Noto Sans CJK HK",
+      "file": "NotoSansHK-VF.ttf",
+      "format": "truetype",
+      "mime": "font/ttf",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/Variable/TTF/Subset/NotoSansHK-VF.ttf",
+      "sha256": "70172afd2cf0e045182787219b949e7798253982a36e364114757c09efd55477"
+    },
+    "ja": {
+      "family": "Noto Sans CJK JP",
+      "file": "NotoSansJP-VF.ttf",
+      "format": "truetype",
+      "mime": "font/ttf",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/Variable/TTF/Subset/NotoSansJP-VF.ttf",
+      "sha256": "f4b373b226668ee33a6e54b02823dcd2d1209f17159f777421ae8c2275160369"
+    },
+    "ko": {
+      "family": "Noto Sans CJK KR",
+      "file": "NotoSansKR-VF.ttf",
+      "format": "truetype",
+      "mime": "font/ttf",
+      "source": "https://raw.githubusercontent.com/notofonts/noto-cjk/Sans2.004/Sans/Variable/TTF/Subset/NotoSansKR-VF.ttf",
+      "sha256": "9e1d729e7e2b36f9ef439da102f8c134c10aabe46f1c843bf0aca5c043b86f76"
+    }
+  },
+  "files": {
+    "LICENSE-Inter.txt": "262481e844521b326f5ecd053e59b98c8b2da78c8ee1bdbb6e8174305e54935a",
+    "LICENSE-Noto-Sans-CJK.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+  }
+}

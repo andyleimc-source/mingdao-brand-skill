@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# 个人物料区:成品不进库,只保留说明文件(见 my-materials/README.md)
+my-materials/*
+!my-materials/README.md

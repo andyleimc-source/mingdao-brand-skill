@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HAP 实战直播 · 标题+描述 · 三尺寸预览</title>
+  <style>
+    :root {
+      --ink: #151A21;
+      --black: #070707;
+      --navy: #082C5E;
+      --muted: #4E535C;
+      --white: #FFFFFF;
+      --label-on-navy: rgba(255, 255, 255, .8);
+      --workspace: #E0E5EC;
+      --font: "PingFang SC", "Source Han Sans CN", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      padding: 32px;
+      color: var(--ink);
+      background: var(--workspace);
+      font-family: var(--font);
+    }
+
+    .page-head { max-width: 1280px; margin: 0 auto 32px; }
+    .page-head h1 { margin: 0 0 8px; font-size: 28px; line-height: 36px; font-weight: 600; }
+    .page-head p { margin: 0; color: var(--muted); font-size: 16px; line-height: 24px; }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(640px, 1fr));
+      gap: 32px;
+      max-width: 1440px;
+      margin: 0 auto;
+      align-items: start;
+    }
+    .preview-card { min-width: 0; }
+    .preview-label { margin: 0 0 12px; color: var(--muted); font-size: 14px; line-height: 20px; }
+    .viewport { display: flex; align-items: flex-start; justify-content: center; overflow: auto; }
+    .canvas-wrap { position: relative; flex: none; overflow: hidden; }
+    .wrap-1280 { width: 640px; height: 360px; }
+    .wrap-900 { width: 630px; height: 268.1px; }
+    .wrap-1080 { width: 540px; height: 720px; }
+    .wrap-1280 .canvas { transform: scale(.5); }
+    .wrap-900 .canvas { transform: scale(.7); }
+    .wrap-1080 .canvas { transform: scale(.5); }
+
+    .canvas {
+      position: absolute;
+      inset: 0 auto auto 0;
+      overflow: hidden;
+      flex: none;
+      background: var(--white);
+      transform-origin: top left;
+      font-family: var(--font);
+    }
+    .canvas * { position: absolute; }
+    .canvas-1280 { width: 1280px; height: 720px; }
+    .canvas-900 { width: 900px; height: 383px; }
+    .canvas-1080 { width: 1080px; height: 1440px; }
+    .info-panel { border-radius: 4px; background: var(--navy); }
+    .logo { display: block; height: auto; }
+    .volume { margin: 0; color: var(--muted); font-weight: 500; white-space: nowrap; }
+    .fit-title, .description { margin: 0; white-space: pre-line; text-align: left; overflow: hidden; }
+    .fit-title { color: var(--ink); font-weight: 600; }
+    .description { color: var(--black); font-weight: 400; }
+    .meta-label, .meta-value { margin: 0; white-space: nowrap; }
+    .meta-label { color: var(--label-on-navy); font-weight: 400; }
+    .meta-value { color: var(--white); font-weight: 600; }
+
+    .canvas-1280 .info-panel { left: 0; top: 512px; width: 1280px; height: 208px; border-radius: 0; }
+    .canvas-1280 .logo { left: 72px; top: 72px; width: 184px; }
+    .canvas-1280 .volume { left: 1083px; top: 83px; font-size: 28px; line-height: 36px; letter-spacing: 1.68px; }
+    .canvas-1280 .fit-title { left: 72px; top: 248px; width: 1136px; height: 90px; font-size: 80px; line-height: 84px; letter-spacing: -1.2px; }
+    .canvas-1280 .description { left: 72px; top: 358px; width: 1136px; height: 54px; font-size: 60px; line-height: 54px; }
+    .canvas-1280 .date-label { left: 72px; top: 572px; font-size: 28px; line-height: 34px; }
+    .canvas-1280 .date-value { left: 72px; top: 618px; font-size: 48px; line-height: 42px; }
+    .canvas-1280 .time-label { left: 640px; top: 572px; font-size: 28px; line-height: 34px; }
+    .canvas-1280 .time-value { left: 640px; top: 618px; font-size: 48px; line-height: 42px; }
+
+    .canvas-900 .info-panel { left: 0; top: 275px; width: 900px; height: 108px; border-radius: 0; }
+    .canvas-900 .logo { left: 44px; top: 36px; width: 103.16px; }
+    .canvas-900 .volume { left: 775px; top: 41px; font-size: 18px; line-height: 23px; letter-spacing: 1.08px; }
+    .canvas-900 .fit-title { left: 44px; top: 116px; width: 812px; height: 58px; font-size: 56px; line-height: 54px; letter-spacing: -.8px; }
+    .canvas-900 .description { left: 44px; top: 190px; width: 812px; height: 38px; font-size: 36px; line-height: 38px; }
+    .canvas-900 .date-label { left: 44px; top: 297px; font-size: 18px; line-height: 26px; }
+    .canvas-900 .date-value { left: 44px; top: 327px; font-size: 28px; line-height: 32px; }
+    .canvas-900 .time-label { left: 450px; top: 297px; font-size: 18px; line-height: 26px; }
+    .canvas-900 .time-value { left: 450px; top: 327px; font-size: 28px; line-height: 32px; }
+
+    .canvas-1080 .info-panel { left: 72px; top: 948px; width: 936px; height: 420px; }
+    .canvas-1080 .logo { left: 72px; top: 68px; width: 206.33px; }
+    .canvas-1080 .volume { left: 823px; top: 74px; font-size: 40px; line-height: 52px; letter-spacing: 1.4px; }
+    .canvas-1080 .fit-title { left: 72px; top: 232px; width: 888px; height: 91px; font-size: 72px; line-height: 92px; letter-spacing: -1.2px; color: var(--black); }
+    .canvas-1080 .description { left: 72px; top: 323px; width: 888px; height: 92px; font-size: 56px; line-height: 92px; letter-spacing: -1.2px; }
+    .speaker-photo { left: 72px; top: 457px; z-index: 2; width: 510px; height: 911px; object-fit: contain; object-position: left bottom; }
+    .speaker-placeholder { left: 72px; top: 457px; z-index: 1; display: grid; width: 510px; height: 911px; place-items: center; color: var(--muted); background: #EBF0F6; font-size: 24px; }
+    .speaker-copy { right: 124px; top: 643px; z-index: 3; width: 366px; text-align: right; }
+    .speaker-copy * { position: static; margin: 0; text-align: right; }
+    .speaker-name { color: var(--navy); font-size: 48px; line-height: 48px; font-weight: 500; }
+    .speaker-role { margin-top: 16px !important; color: var(--navy); font-size: 36px; line-height: 48px; }
+    .speaker-company { margin-top: 4px !important; color: var(--muted); font-size: 28px; line-height: 34px; }
+    .live-meta { right: 124px; top: 983px; z-index: 3; width: 162px; height: 116px; }
+    .live-meta * { margin: 0; white-space: nowrap; }
+    .live-meta .meta-label { right: 0; top: 0; width: 88px; height: 34px; font-size: 22px; line-height: 34px; font-weight: 400; text-align: left; }
+    .live-meta .date-value { left: 0; top: 34px; width: 75px; height: 58px; color: var(--white); font-size: 28px; line-height: 58px; font-weight: 500; text-align: right; }
+    .live-meta .weekday-value { right: 0; top: 33px; width: 72px; height: 58px; color: var(--white); font-size: 24px; line-height: 58px; font-weight: 400; text-align: right; }
+    .live-meta .time-row { left: 0; top: 74px; width: 162px; height: 42px; color: var(--white); font-size: 28px; line-height: 42px; font-weight: 500; text-align: right; }
+    .qr-shell { left: 738px; top: 1116px; z-index: 3; display: grid; width: 218px; height: 218px; place-items: center; overflow: hidden; border-radius: 4px; background: var(--white); }
+    .qr-code { position: static !important; display: block; width: 188px; height: 184px; object-fit: contain; image-rendering: pixelated; }
+    .qr-placeholder { position: static !important; color: var(--muted); font-size: 20px; line-height: 28px; text-align: center; }
+    .is-hidden { display: none !important; }
+
+    body.export-mode { padding: 0; background: transparent; }
+    body.export-mode .page-head, body.export-mode .preview-label { display: none; }
+    body.export-mode .preview-grid { display: block; width: max-content; max-width: none; margin: 0; }
+    body.export-mode .preview-card { display: none; }
+    body.export-mode .preview-card.export-target { display: block; }
+    body.export-mode .viewport, body.export-mode .canvas-wrap { width: auto; height: auto; overflow: visible; }
+    body.export-mode .canvas { position: relative; transform: none; }
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <h1>HAP 实战直播 · 标题+描述</h1>
+    <p>三尺寸同步预览；添加 ?export=1280x720、?export=900x383 或 ?export=1080x1440 查看原始像素画布。</p>
+  </header>
+
+  <main class="preview-grid">
+    <section class="preview-card" data-size="1280x720">
+      <p class="preview-label">腾讯会议 Webinar · 1280×720</p>
+      <div class="viewport"><div class="canvas-wrap wrap-1280">
+        <article class="canvas canvas-1280" data-canvas-width="1280" data-canvas-height="720" data-figma-node="70:52">
+          <div class="info-panel"></div>
+          <img class="logo" src="../common/logos/mingdao.svg" data-bind-src="logo" alt="明道云">
+          <p class="volume" data-bind="volume">VOL.286</p>
+          <h2 class="fit-title" data-bind="title" data-min-font="52" data-max-lines="2">EPC 工程项目管理解决方案</h2>
+          <p class="description" data-bind="description">以成本收支一体化为核心的</p>
+          <p class="meta-label date-label" data-bind="weekday">星期四</p>
+          <p class="meta-value date-value" data-bind="date">08.20</p>
+          <p class="meta-label time-label">直播时间</p>
+          <p class="meta-value time-value" data-bind="time">20:00-21:00</p>
+        </article>
+      </div></div>
+    </section>
+
+    <section class="preview-card" data-size="900x383">
+      <p class="preview-label">博客 / 公众号头条封面 · 900×383</p>
+      <div class="viewport"><div class="canvas-wrap wrap-900">
+        <article class="canvas canvas-900" data-canvas-width="900" data-canvas-height="383" data-figma-node="45:4">
+          <div class="info-panel"></div>
+          <img class="logo" src="../common/logos/mingdao.svg" data-bind-src="logo" alt="明道云">
+          <p class="volume" data-bind="volume">VOL.286</p>
+          <h2 class="fit-title" data-bind="title" data-min-font="38" data-max-lines="2">EPC 工程项目管理解决方案</h2>
+          <p class="description" data-bind="description">以成本收支一体化为核心的</p>
+          <p class="meta-label date-label" data-bind="weekday">星期四</p>
+          <p class="meta-value date-value" data-bind="date">08.20</p>
+          <p class="meta-label time-label">直播时间</p>
+          <p class="meta-value time-value" data-bind="time">20:00-21:00</p>
+        </article>
+      </div></div>
+    </section>
+
+    <section class="preview-card" data-size="1080x1440">
+      <p class="preview-label">直播转发海报 · 1080×1440</p>
+      <div class="viewport"><div class="canvas-wrap wrap-1080">
+        <article class="canvas canvas-1080" data-canvas-width="1080" data-canvas-height="1440" data-figma-node="69:2">
+          <div class="info-panel"></div>
+          <img class="logo" src="../common/logos/mingdao.svg" data-bind-src="logo" alt="明道云">
+          <p class="volume" data-bind="volume">VOL.286</p>
+          <h2 class="fit-title" data-bind="title" data-min-font="52" data-max-lines="2">EPC 工程项目管理解决方案</h2>
+          <p class="description" data-bind="description">以成本收支一体化为核心的</p>
+          <div class="speaker-placeholder">请替换嘉宾独立照片</div>
+          <img class="speaker-photo is-hidden" data-bind-src="speakerPhoto" alt="嘉宾照片">
+          <div class="speaker-copy">
+            <p class="speaker-name" data-bind="speakerName">杨浩麟</p>
+            <p class="speaker-role" data-bind="speakerRole">CEO</p>
+            <p class="speaker-company" data-bind="speakerCompany">北京青峦云创科技有限公司</p>
+          </div>
+          <div class="live-meta">
+            <p class="meta-label">直播时间</p>
+            <p class="date-value" data-bind="date">08.20</p>
+            <p class="weekday-value" data-bind="weekday">星期四</p>
+            <p class="time-row" data-bind="time">20:00-21:00</p>
+          </div>
+          <div class="qr-shell">
+            <p class="qr-placeholder">请替换预约二维码</p>
+            <img class="qr-code is-hidden" data-bind-src="qrCode" alt="直播预约二维码">
+          </div>
+        </article>
+      </div></div>
+    </section>
+  </main>
+
+  <script>
+    const HAP_LIVE_DATA = {
+      logo: "../common/logos/mingdao.svg",
+      volume: "VOL.286",
+      title: "EPC 工程项目管理解决方案",
+      description: "以成本收支一体化为核心的",
+      weekday: "星期四",
+      date: "08.20",
+      time: "20:00-21:00",
+      speakerName: "杨浩麟",
+      speakerRole: "CEO",
+      speakerCompany: "北京青峦云创科技有限公司",
+      speakerPhoto: "",
+      qrCode: ""
+    };
+
+    document.querySelectorAll("[data-bind]").forEach((node) => {
+      const rawValue = HAP_LIVE_DATA[node.dataset.bind] ?? "";
+      node.textContent = node.dataset.bind === "time"
+        ? String(rawValue).replace(/[—–−]/g, "-")
+        : rawValue;
+    });
+
+    document.querySelectorAll("[data-bind-src]").forEach((node) => {
+      const value = HAP_LIVE_DATA[node.dataset.bindSrc];
+      if (!value) return;
+      node.src = value;
+      node.classList.remove("is-hidden");
+      if (node.classList.contains("speaker-photo")) document.querySelector(".speaker-placeholder")?.classList.add("is-hidden");
+      if (node.classList.contains("qr-code")) document.querySelector(".qr-placeholder")?.classList.add("is-hidden");
+    });
+
+    function titleLineCount(node) {
+      const lineHeight = Number.parseFloat(getComputedStyle(node).lineHeight);
+      return Math.max(1, Math.ceil((node.scrollHeight - .5) / lineHeight));
+    }
+
+    function fitText(node) {
+      const min = Number(node.dataset.minFont || 24);
+      const maxLines = Number(node.dataset.maxLines || 2);
+      let size = Number.parseFloat(getComputedStyle(node).fontSize);
+      while ((titleLineCount(node) > maxLines || node.scrollWidth > node.clientWidth || node.scrollHeight > node.clientHeight) && size > min) {
+        size -= 2;
+        node.style.fontSize = `${size}px`;
+      }
+      const invalid = titleLineCount(node) > maxLines || node.scrollWidth > node.clientWidth || node.scrollHeight > node.clientHeight;
+      node.dataset.titleLines = String(titleLineCount(node));
+      node.dataset.titleStatus = invalid ? "failed" : "passed";
+      return !invalid;
+    }
+
+    function alignScheduleToTime() {
+      document.querySelectorAll(".live-meta").forEach((meta) => {
+        const dateRow = meta.querySelector(".date-row");
+        const timeRow = meta.querySelector(".time-row");
+        if (!dateRow || !timeRow) return;
+        dateRow.style.width = `${timeRow.getBoundingClientRect().width}px`;
+      });
+    }
+
+    document.fonts.ready.then(() => {
+      alignScheduleToTime();
+      const results = [...document.querySelectorAll(".fit-title")].map(fitText);
+      const passed = results.every(Boolean);
+      document.documentElement.dataset.titleValidation = passed ? "passed" : "failed";
+      if (!passed) console.error("直播标题在至少一个尺寸中超过 2 行或发生溢出；请缩小字号、精简文案，或询问是否拆成标题+描述。");
+    });
+
+    const exportSize = new URLSearchParams(location.search).get("export");
+    if (exportSize) {
+      const target = document.querySelector(`.preview-card[data-size="${exportSize}"]`);
+      if (target) {
+        document.body.classList.add("export-mode");
+        target.classList.add("export-target");
+        document.title = `HAP 实战直播 · ${exportSize}`;
+      }
+    }
+  </script>
+</body>
+</html>

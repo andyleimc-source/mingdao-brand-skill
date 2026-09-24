@@ -1,0 +1,13 @@
+{
+  "name": "Google Material Symbols Outlined",
+  "upstream": "https://github.com/google/material-design-icons",
+  "revision": "abd7f5c0e179c83f068c770650bd14ebac5d5a09",
+  "retrieved_at": "2026-07-23",
+  "license": "Apache-2.0",
+  "files": {
+    "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+    "MaterialSymbolsOutlined.ttf": "0a186be334a516cf80a4287073b788feef8f0fc2c633c74f4ff7828530f35293",
+    "MaterialSymbolsOutlined.woff2": "a0b648e4531fd6cb23b0473e47ce39461d8e49c33d4a5fc64023c424ab37fb5d",
+    "codepoints.txt": "da2ca2773eaeebe793f6fcca4971a4975596ab4e04f133bc4e81641eac5ce550"
+  }
+}
