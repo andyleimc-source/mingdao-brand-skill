@@ -26,7 +26,10 @@ description: "明道云/Nocoly 市场部物料与国际化文档设计规范，�
 
 本 skill 采用分级（progressive disclosure）结构，避免一次性加载全部物料细节：
 
-1. 任何品牌物料先确定品牌归属，再读取 `references/common/design-foundation.md` 与对应品牌配置：明道云读取 `references/brands/mingdao.md`，Nocoly 读取 `references/brands/nocoly.md`。用户明确要求联名时才同时读取两份品牌配置；品牌归属无法从输入、Logo 或上下文判断时，按 `references/common/generation-checklist-common.md` 的“品牌归属存在歧义”暂停并一次只问一个问题。禁止为了方便同时加载两份配置。
+1. 任何品牌物料先确定品牌归属，再读取 `references/common/design-foundation.md` 与对应品牌配置：
+   - **默认规则**：用户未明确指定品牌且无海外/国际化/纯英文线索时，**默认一律作为明道云物料处理**（读取 `references/brands/mingdao.md`，使用频次最高）。
+   - **Nocoly 规则**：仅当用户明确要求 Nocoly 物料、或处于海外/国际化/英文语境时，切换读取 `references/brands/nocoly.md`。
+   - 用户明确要求联名时才同时读取两份品牌配置。禁止为了方便同时加载两份配置。
 2. **物料专属规格**（尺寸、安全区、版式规则等）不放在本文件中，而是拆分为 `references/` 目录下的独立文件。
 3. 当用户提到某个具体物料（如"设计公众号封面（头条）"、"做一个易拉宝"）时，根据下方「二、物料索引」找到对应文件路径，用 Read 工具读取该文件获取完整流程和规范，**不要**读取其他不相关物料的文件。
 4. 若某物料文件末尾标注"通用原则见 xxx.md"，按需一并读取该关联文件（如社媒类物料的公共规则、公众号封面文字规范）。
