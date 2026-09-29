@@ -9,13 +9,13 @@
 **Claude Code**
 
 ```bash
-git clone https://github.com/andyleimc-source/mingdao-brand-skill.git ~/.claude/skills/mingdao-brand-asset-design
+git clone https://github.com/mingdaocom/mingdao-brand-skill.git ~/.claude/skills/mingdao-brand-asset-design
 ```
 
 **Codex**
 
 ```bash
-git clone https://github.com/andyleimc-source/mingdao-brand-skill.git ~/.codex/skills/mingdao-brand-asset-design
+git clone https://github.com/mingdaocom/mingdao-brand-skill.git ~/.codex/skills/mingdao-brand-asset-design
 ```
 
 不用命令行：点页面上方 Code → Download ZIP，解压后把文件夹改名为 `mingdao-brand-asset-design`，放进上面对应的目录。
